@@ -31,14 +31,16 @@ def get_pairwise_dists(nearest_dict, data, N):
     return dists
 
 def make_data(cfg):
-    x = np.linspace(0, 6*np.pi, 200)
+    num_pts = cfg["num_points"]
+    num_waves = cfg["num_waves"]
+    x = np.linspace(0, 6*np.pi, num_pts)
     y = []
-    for i in range(4):
+    for i in range(num_waves):
         y.append( np.sin(x) + i*0.25 )
-    data = np.zeros((800,2))
-    for i in range(4):
-        data[i*200 : (i+1)*200, 0] = x
-        data[i*200 : (i+1)*200, 1] = y[i]
+    data = np.zeros((num_waves*num_pts,2))
+    for i in range(num_waves):
+        data[i*num_pts : (i+1)*num_pts, 0] = x
+        data[i*num_pts : (i+1)*num_pts, 1] = y[i]
     noise = np.random.normal(0, cfg["sigma"], data.shape)
     data += noise
     return data
