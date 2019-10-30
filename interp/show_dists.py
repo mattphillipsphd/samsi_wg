@@ -52,6 +52,8 @@ def main(cfg):
     for n in range(1,cfg["n_range"]+1):
         if cfg["property"] == "pwise-dist":
             dists = U.get_pairwise_dists(nearest_dict, data, n)
+        elif cfg["property"] == "dist0":
+            dists = U.get_dists(nearest_dict, data, n)
         else:
             raise NotImplementedError( cfg["property"] )
         prop_dict[n] = dists        
@@ -72,7 +74,7 @@ if __name__ == "__main__":
     parser.add_argument("--num-bins", type=int, default=50)
 
     parser.add_argument("--property", default="pwise-dist",
-            choices=["pwise-dist"])
+            choices=["pwise-dist", "dist0"])
 
     cfg = vars( parser.parse_args() )
     main(cfg)

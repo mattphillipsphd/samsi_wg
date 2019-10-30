@@ -26,6 +26,13 @@ def calc_entropy(dists, bin_sz):
     entropy = -np.sum(cts * np.log(cts))
     return entropy
 
+def get_dists(nearest_dict, data, N):
+    dists = []
+    for k,v in nearest_dict.items():
+        for pt in v[:N]:
+            dists.append( euclidean(data[k],pt) )
+    return dists
+
 def get_pairwise_dists(nearest_dict, data, N):
     dists = []
     for k,v in nearest_dict.items():
