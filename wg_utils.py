@@ -8,10 +8,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 import sys
+from collections import OrderedDict
 from scipy.spatial.distance import euclidean
-
-sys.path.append( os.path.dirname(os.path.dirname(os.path.abspath(__file__))) )
-import wg_utils as U
 
 pe = os.path.exists
 pj = os.path.join
@@ -25,6 +23,35 @@ def calc_entropy(dists, bin_sz):
     cts = cts.astype(np.float) / np.sum(cts).astype(np.float)
     entropy = -np.sum(cts * np.log(cts))
     return entropy
+
+# Inputs
+#   pts: (N, D) numpy array, where N is the number of points and D is the number
+#       of dimensions
+#   clusters: (N,) array, should probably be integer type.  Cluster label for 
+#       each point in pts
+def dunn_index(pts, clusters):
+    assert( len(pts) == len(clusters) )
+    C = sorted( np.unique(clusters) )
+    Z = []
+    d_within = []
+    for c in C:
+        pts_c = pts[ clusters==c ]
+        z = np.mean(pts_c, axis=0)
+        dists_c = []
+        for p in pts_c:
+            dists_c.append( euclidean(p,z) )
+        d_within.append( np.mean(dists_c) )
+        Z.append(z)
+    
+    min_inter_d = np.inf
+    for i,z1 in enumerate(Z):
+        for z2 in Z[ i+1 : ]:
+            d = euclidean(z1, z2)
+            if d < min_inter_d:
+                min_inter_d = d
+
+    dunn_index = min_inter_d / np.max(d_within)
+    return dunn_index
 
 def get_dists(nearest_dict, data, N):
     dists = []
