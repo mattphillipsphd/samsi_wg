@@ -46,7 +46,8 @@ def plot_dists(prop_dict, num_bins):
 
 
 def main(cfg):
-    data = U.make_wave_data(cfg["num_waves"], cfg["num_points"], cfg["sigma"])
+    data = U.make_wave_data(cfg["num_waves"], cfg["num_points"], cfg["sigma"],
+            cfg["offset"])
     nearest_dict = U.make_nearest_dict(cfg["num_starts"], cfg["n_range"], data)
     prop_dict = OrderedDict()
     for n in range(1,cfg["n_range"]+1):
@@ -70,6 +71,7 @@ if __name__ == "__main__":
     parser.add_argument("--num-points", type=int, default=200)
     parser.add_argument("--num-waves", type=int, default=4)
     parser.add_argument("--num-starts", type=int, default=10)
+    parser.add_argument("--offset", type=float, default=0.25)
     parser.add_argument("--n-range", type=int, default=40)
     parser.add_argument("--num-bins", type=int, default=50)
 
