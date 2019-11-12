@@ -70,6 +70,8 @@ def get_pairwise_dists(nearest_dict, data, N):
     return dists
 
 def make_nearest_dict(num_starts, n_range, data):
+    if num_starts==0:
+        return {}
     numr = num_starts
     N = len(data)
     idxs = np.random.choice(range(N), (numr,), replace=False)

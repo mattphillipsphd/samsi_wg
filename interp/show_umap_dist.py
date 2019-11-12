@@ -34,8 +34,7 @@ def plot_embeddings(embeddings, labels, cfg):
         j = ct % num_cols
         ax = axs[i][j]
         for c,c_i in enumerate(c_list):
-            ax.scatter(v[labels==c, 0], v[labels==c, 1], color=colors[c_i],
-                    s=4)
+            ax.scatter(v[labels==c, 0], v[labels==c, 1], color=colors[c_i], s=4)
         ax.set_title("n = %d" % k)
         ct += 1
 
@@ -45,11 +44,11 @@ def plot_embeddings(embeddings, labels, cfg):
             ax.set_xticks([])
             ax.set_yticks([])
     plt.tight_layout(rect=[0, 0.0, 1, 0.95])
-    if cfg["show_plot"]:
-        plt.show()
     if not pe(cfg["output_dir"]):
         os.makedirs( cfg["output_dir"] )
     plt.savefig( pj(cfg["output_dir"], "umap_embeddings.png") )
+    if cfg["show_plot"]:
+        plt.show()
     plt.close()
 
 def main(cfg):
@@ -66,7 +65,8 @@ def main(cfg):
     embeddings = OrderedDict()
     for n in ns:
         emb = umap.UMAP(n_neighbors=n, min_dist=cfg["min_dist"],
-                metric=cfg["umap_metric"], init="random").fit_transform(data)
+                metric=cfg["umap_metric"],
+                init=cfg["umap_init"]).fit_transform(data)
         embeddings[n] = emb
         dis.append( U.dunn_index(emb, labels) )
     plot_embeddings(embeddings, labels, cfg)
@@ -76,17 +76,18 @@ def main(cfg):
     plt.xlabel("# nearest neighbors")
     plt.ylabel("Dunn Index")
     plt.title("Dunn Index on %s" % data_name)
-    if cfg["show_plot"]:
-        plt.show()
     if not pe(cfg["output_dir"]):
         os.makedirs( cfg["output_dir"] )
     plt.savefig( pj(cfg["output_dir"], "umap_dunn_index.png") )
+    if cfg["show_plot"]:
+        plt.show()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--n-range", type=int, default=20)
-    parser.add_argument("--min-dist", type=float, default=0.3)
-    parser.add_argument("--umap-metric", type=str, default="correlation")
+    parser.add_argument("--min-dist", type=float, default=0.1)
+    parser.add_argument("--umap-metric", type=str, default="euclidean")
+    parser.add_argument("--umap-init", type=str, default="spectral")
     parser.add_argument("-o", "--output-dir", type=str,
             default=pj(HOME, "Repos/mattphillipsphd/samsi_wg/interp/output"))
     parser.add_argument("--show-plot", action="store_true")
@@ -94,7 +95,7 @@ if __name__ == "__main__":
     parser.add_argument("--sigma", type=float, default=0.025)
     parser.add_argument("--num-points", type=int, default=200)
     parser.add_argument("--num-waves", type=int, default=4)
-    parser.add_argument("--offset", type=float, default=0.25)
+    parser.add_argument("--offset", type=float, default=0.5)
 
     cfg = vars( parser.parse_args() )
     main(cfg)

@@ -22,7 +22,12 @@ def main(cfg):
             cfg["offset"])
     nearest_dict = U.make_nearest_dict(cfg["num_starts"], cfg["n_range"], data)
     if cfg["test"]:
-        plt.scatter(data[:,0], data[:,1], marker="o")
+        num_pts = cfg["num_points"]
+        colors = ["r", "b", "g", "m", "c", "k", "y"]
+        for w in range(cfg["num_waves"]):
+            plt.scatter(data[ w*num_pts : (w+1)*num_pts, 0 ],
+                    data[ w*num_pts : (w+1)*num_pts :, 1 ], marker="o",
+                    color=colors[w%len(colors)])
         for k,v in nearest_dict.items():
             plt.scatter(data[k][0], data[k][1], marker="+")
             near_x = [p[0] for p in v]
@@ -47,7 +52,7 @@ if __name__ == "__main__":
     parser.add_argument("--num-points", type=int, default=200)
     parser.add_argument("--num-waves", type=int, default=4)
     parser.add_argument("--num-starts", type=int, default=10)
-    parser.add_argument("--offset", type=float, default=0.25)
+    parser.add_argument("--offset", type=float, default=0.5)
     parser.add_argument("--n-range", type=int, default=40)
     parser.add_argument("--bin-size", type=float, default=0.1)
     cfg = vars( parser.parse_args() )

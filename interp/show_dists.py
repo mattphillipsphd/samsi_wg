@@ -71,7 +71,7 @@ if __name__ == "__main__":
     parser.add_argument("--num-points", type=int, default=200)
     parser.add_argument("--num-waves", type=int, default=4)
     parser.add_argument("--num-starts", type=int, default=10)
-    parser.add_argument("--offset", type=float, default=0.25)
+    parser.add_argument("--offset", type=float, default=0.5)
     parser.add_argument("--n-range", type=int, default=40)
     parser.add_argument("--num-bins", type=int, default=50)
 
