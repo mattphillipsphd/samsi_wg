@@ -18,8 +18,8 @@ pj = os.path.join
 HOME = os.path.expanduser("~")
 
 def main(cfg):
-    data = U.make_wave_data(cfg["num_waves"], cfg["num_points"], cfg["sigma"],
-            cfg["offset"])
+    data,_ = U.make_wave_data(cfg["num_waves"], cfg["num_points"], cfg["sigma"],
+            cfg["offset"], cfg["seed"])
     nearest_dict = U.make_nearest_dict(cfg["num_starts"], cfg["n_range"], data)
     if cfg["test"]:
         num_pts = cfg["num_points"]
@@ -48,6 +48,7 @@ def main(cfg):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--test", action="store_true")
+    parser.add_argument("--seed", type=int, default=-1)
     parser.add_argument("--sigma", type=float, default=0.025)
     parser.add_argument("--num-points", type=int, default=200)
     parser.add_argument("--num-waves", type=int, default=4)

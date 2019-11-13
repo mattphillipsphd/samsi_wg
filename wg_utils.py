@@ -83,17 +83,21 @@ def make_nearest_dict(num_starts, n_range, data):
         nearest[idx] = pts
     return nearest
 
-def make_wave_data(num_waves, num_pts, noise_sigma, offset):
+def make_wave_data(num_waves, num_pts, noise_sigma, offset, rand_seed=-1):
     x = np.linspace(0, 6*np.pi, num_pts)
     y = []
     for i in range(num_waves):
         y.append( np.sin(x) + i*offset )
     data = np.zeros((num_waves*num_pts,2))
+    labels = np.zeros((num_waves*num_pts,))
     for i in range(num_waves):
         data[i*num_pts : (i+1)*num_pts, 0] = x
         data[i*num_pts : (i+1)*num_pts, 1] = y[i]
+        labels[ i*num_pts : (i+1)*num_pts ] = i
+    if rand_seed>=0:
+        np.random.seed(rand_seed)
     noise = np.random.normal(0, noise_sigma, data.shape)
     data += noise
-    return data
+    return data,labels
 
 

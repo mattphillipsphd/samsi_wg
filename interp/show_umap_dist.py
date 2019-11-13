@@ -51,28 +51,29 @@ def plot_embeddings(embeddings, labels, cfg):
         plt.show()
     plt.close()
 
-def main(cfg):
-    data = U.make_wave_data(cfg["num_waves"], cfg["num_points"], cfg["sigma"],
-            cfg["offset"])
-    data_name = "waves(4)"
-    labels = []
-    for c in range( cfg["num_waves"] ):
-        labels += [c] * cfg["num_points"]
-    labels = np.array(labels)
-
-    ns = list(range(2, cfg["n_range"]))
-    dis = []
+def get_embeddings(data, labels, ns, cfg):
+    dunn_idxs = []
     embeddings = OrderedDict()
     for n in ns:
         emb = umap.UMAP(n_neighbors=n, min_dist=cfg["min_dist"],
                 metric=cfg["umap_metric"],
                 init=cfg["umap_init"]).fit_transform(data)
         embeddings[n] = emb
-        dis.append( U.dunn_index(emb, labels) )
+        dunn_idxs.append( U.dunn_index(emb, labels) )
+    return embeddings,dunn_idxs
+
+
+def main(cfg):
+    data,labels = U.make_wave_data(cfg["num_waves"], cfg["num_points"],
+            cfg["sigma"], cfg["offset"], rand_seed=cfg["seed"])
+    data_name = "waves(4)"
+
+    ns = list(range(2, cfg["n_range"]+1))
+    embeddings,dunn_idxs = get_embeddings(data, labels, ns, cfg)
     plot_embeddings(embeddings, labels, cfg)
-    best_idx = np.argmax(dis)
+    best_idx = np.argmax(dunn_idxs)
     print("Best n: %d" % ns[best_idx])
-    plt.plot(ns, dis)
+    plt.plot(ns, dunn_idxs)
     plt.xlabel("# nearest neighbors")
     plt.ylabel("Dunn Index")
     plt.title("Dunn Index on %s" % data_name)
@@ -84,6 +85,7 @@ def main(cfg):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument("--seed", type=int, default=-1)
     parser.add_argument("--n-range", type=int, default=20)
     parser.add_argument("--min-dist", type=float, default=0.1)
     parser.add_argument("--umap-metric", type=str, default="euclidean")
