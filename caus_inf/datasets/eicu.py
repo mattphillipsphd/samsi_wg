@@ -33,13 +33,9 @@ import ci_utils as CU
 pe = os.path.exists
 pj = os.path.join
 HOME = os.path.expanduser("~")
-if platform.node().lower() == "matt-xps-8900":
-    DATA = HOME
-else:
-    DATA = "/media/data"
 
 class EicuDS(Dataset):
-    def __init__(self, data_supdir=pj(DATA, "Datasets/eicu-2.0")):
+    def __init__(self, data_supdir=pj(HOME, "Datasets/eicu-2.0")):
         super().__init__()
         self._batch_to_lst = None
         self._data_supdir = data_supdir
