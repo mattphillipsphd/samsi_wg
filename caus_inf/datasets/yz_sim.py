@@ -28,6 +28,42 @@ pe = os.path.exists
 pj = os.path.join
 HOME = os.path.expanduser("~")
 
+
+# 'batch' is a list of whatever comes out of the dataset
+def seq_collate_fn(batch):
+    xs = [b[0] for b in batch]
+    ys = [b[1] for b in batch]
+    tts = [b[2] for b in batch]
+    pids = [b[3] for b in batch]
+    xs = torch.cat( [x.unsqueeze(1) for x in xs], axis=1 )
+    ys = torch.cat( [y.unsqueeze(1) for y in ys], axis=1 )
+    tts = torch.cat( [t.unsqueeze(1) for t in tts], axis=1 )
+    pids = torch.LongTensor(pids)
+    return (xs, ys, tts, pids)
+
+def get_YZSim_loaders(cfg, modes=["train", "valid"]):
+    ds_kwargs = OrderedDict()
+    for k in []:
+        ds_kwargs[k] = cfg[k]
+    dl_kwargs = { "num_workers" : cfg["num_workers"],
+            "batch_size" : cfg["batch_size"],
+            "collate_fn" : seq_collate_fn }
+
+    if cfg["cuda"] >= 0:
+        dl_kwargs["pin_memory"] = True
+    loaders = []
+
+    if "train" in modes:
+        train_dataset = YZSim(mode="train", **ds_kwargs)
+        loaders.append( DataLoader(train_dataset, shuffle=True, **dl_kwargs) )
+    if "valid" in modes:
+        valid_dataset = YZSim(mode="valid", **ds_kwargs)
+        loaders.append( DataLoader(valid_dataset, shuffle=False, **dl_kwargs) )
+    if "test" in modes:
+        test_dataset = YZSim(mode="test", **ds_kwargs)
+        loaders.append( DataLoader(test_dataset, shuffle=False, **dl_kwargs) )
+    return loaders
+
 class YZSim(Dataset):
     def __init__(self, data_supdir=pj(HOME, "Datasets/EHRs/CausInfSim"),
             mode="train", use_small=True):
@@ -47,7 +83,7 @@ class YZSim(Dataset):
         Y = self._data_dict[pid]["Y"]
         tt = torch.zeros( len(X), 1 )
         tt[ self._data_dict[pid]["treat"] ] = 1
-        return torch.FloatTensor(X),torch.FloatTensor(Y),tt
+        return torch.FloatTensor(X),torch.FloatTensor(Y),tt,pid
 
     def __len__(self):
         return len(self._pids)
@@ -79,14 +115,24 @@ class YZSim(Dataset):
 
 def main(cfg):
     dataset = YZSim()
-    x,y,tt = dataset[4]
+    x,y,tt,pid = dataset[4]
     print(x.shape)
     print(y.shape)
     print(tt.shape)
+    print(pid)
+    loader, = get_YZSim_loaders(cfg, modes="train")
+    for data in loader:
+        print("batch: ", len(data))
+        for x in data:
+            print("\t", x.shape)
+        break
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-N", type=int, default=-1)
+    parser.add_argument("-b", "--batch-size", type=int, default=32)
+    parser.add_argument("--num-workers", type=int, default=24)
+    parser.add_argument("--cuda", type=int, default=0, help="-1 for CPU")
     cfg = vars( parser.parse_args() )
     main(cfg)
 
