@@ -80,13 +80,20 @@ class YZSim(Dataset):
     def __getitem__(self, index):
         pid = self._pids[index]
         X = self._data_dict[pid]["X"]
-        Y = self._data_dict[pid]["Y"]
+        Y2 = self._data_dict[pid]["Y"]
+        treat_time = self._data_dict[pid]["treat"]
+        Y = np.zeros( (len(Y2),) )
+        Y[:treat_time] = Y2[:treat_time, 0]
+        Y[treat_time:] = Y2[treat_time:, 1]
         tt = torch.zeros( len(X), 1 )
-        tt[ self._data_dict[pid]["treat"] ] = 1
+        tt[treat_time] = 1
         return torch.FloatTensor(X),torch.FloatTensor(Y),tt,pid
 
     def __len__(self):
         return len(self._pids)
+
+    def get_input_size(self):
+        return 100
 
     def get_pid(self, index):
         return self._pids[index]
@@ -94,8 +101,9 @@ class YZSim(Dataset):
     def _get_data_and_labels(self):
         if self._mode=="train":
             path = pj(self._data_supdir, "TP_train100.csv") # TODO
-        elif self._mode=="test":
-            path = pj(self._data_supdir, "TP_test.csv")
+        elif self._mode=="valid" or self._mode=="test":
+            path = pj(self._data_supdir, "TP_train100.csv") # TODO
+#            path = pj(self._data_supdir, "TP_test.csv")
         else:
             raise NotImplementedError(self._mode)
         df = pd.read_csv(path)

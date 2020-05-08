@@ -38,26 +38,29 @@ class MyRNN(nn.Module):
         return torch.tanh(x)
 
 class SimpleRNN(nn.Module):
-    def __init__(self, input_size, hidden_size, bias=True, batch_first=False,
-            device=-1, do_manual=False):
+    def __init__(self, input_size, hidden_size, output_size=1, bias=True,
+            batch_first=False, device="cpu", do_manual=False):
         super().__init__()
-        self._device = device if device >= 0 else "cpu"
+        self._device = device
         self._hidden_size = hidden_size
+        self._output_size = output_size
 
         self._rnn = MyRNN(input_size, hidden_size) if do_manual \
                 else nn.GRUCell(input_size, hidden_size, bias=bias)
-        self._linear = nn.Linear(hidden_size, 1)
+        self._linear = nn.Linear(hidden_size, output_size)
 
     def forward(self, x):
         hidden = torch.zeros(x.size(1), self._hidden_size, device=self._device)
+#        print("x", x.shape)
+#        print("hidden", hidden.shape)
         for x_step in x:
             hidden = self._rnn(x_step, hidden)
         output = hidden
         x = self._linear(output)
-#        print(torch.min(x).item(), torch.max(x).item(), torch.mean(x).item(), torch.median(x).item())
-        out = torch.sigmoid(x)
-#        out = x
-#        print(out.shape)
+#        out = torch.sigmoid(x)
+        out = x
+#        print("out", out.shape)
+#        raise
         return out
 
     def get_name(self):

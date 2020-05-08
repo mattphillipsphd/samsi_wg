@@ -21,7 +21,7 @@ from pytorch.pyt_utils.utils import find_lr, get_summary_writer, \
         print_var_stats, save_model_pop_old
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from datasets.clinical_data import get_ClinicalData_loaders
+from datasets.yz_sim import get_YZSim_loaders
 from models.rnn import SimpleRNN
 
 pe = os.path.exists
@@ -58,30 +58,33 @@ def train(model, loaders, cfg):
     global g_iter_ct
     writer = get_writer()
     train_loader,valid_loader = loaders
-    criterion = torch.nn.BCELoss(reduction="mean")
+    criterion = torch.nn.MSELoss(reduction="mean")
+#    criterion = torch.nn.BCELoss(reduction="mean")
     optimizer = torch.optim.SGD(model.parameters(), lr=cfg["lr"])
-    NC = train_loader.dataset.get_num_codes()
-    g_iter_ct = 0
+    g_iter_ct = 1
     for epoch in range( cfg["max_num_epochs"] ):
         g_set_writer_mode("train")
         for data in train_loader:
-            x,y,(k,start) = data
-            # (20, 32, 336), (336,32)
+            x,y,tt,pid = data
             x = x.to(cudev)
             y = y.to(cudev)
-            y_hi = y[NC:] > 0
-            y_lo = y[NC:] < 0
-            y = torch.sum(y_hi, axis=0) > torch.sum(y_lo, axis=0)
-            y = y.to(torch.float)
-#            y = torch.sum(y[NC:], axis=0).view(-1) # TODO This should be done
-                # in dataset
+            tt = tt.to(cudev)
+            # x: (160, 32, 100)
+            # y: (160, 32)
+            # tt: (160, 32, 1)
+#            print("x", x.shape)
+#            print("y", y.shape)
+#            print("tt", tt.shape)
+#            raise
+            xt = torch.cat([x,tt], dim=2)
+            y = y[-1, :]
 
-            yhat = model(x).view(-1)
-            # (32, 1)
+            yhat = model(xt).view(-1)
             
             optimizer.zero_grad()
             loss = criterion(yhat, y)
-            writer.add_scalars("Loss", {g_writer_mode : loss.item()}, g_iter_ct)
+            writer.add_scalars("Loss", {g_writer_mode : loss.item()},g_iter_ct)
+            print("Training loss: %f" % loss.item())
             g_iter_ct += 1
 
         with torch.no_grad():
@@ -90,22 +93,19 @@ def train(model, loaders, cfg):
 
             test_loss = 0
             for ct,data in enumerate(valid_loader):
-                x,y,(k,start) = data
-                # (20, 32, 336), (336,32)
+                x,y,tt,pid = data
                 x = x.to(cudev)
                 y = y.to(cudev)
-                y_hi = y[NC:] > 0
-                y_lo = y[NC:] < 0
-                y = torch.sum(y_hi, axis=0) > torch.sum(y_lo, axis=0)
-                y = y.to(torch.float)
+                tt = tt.to(cudev)
+                xt = torch.cat([x,tt], dim=2)
+                y = y[-1, :]
 
-                yhat = model(x).view(-1)
-                # (32, 1)
+                yhat = model(xt).view(-1)
                 
-                loss = criterion(yhat, y)
-                test_loss += loss.item()
+                test_loss = criterion(yhat, y)
                 g_iter_ct += 1
             writer.add_scalars("Loss", {g_writer_mode : test_loss}, g_iter_ct)
+            print("Valid loss: %f" % test_loss.item())
 
 def main(cfg):
     cfg["session_dir"] = make_or_get_session_dir(cfg["sessions_supdir"],
@@ -121,31 +121,29 @@ def main(cfg):
     cfg["output_dir"] = pj(cfg["session_dir"], "eval")
     if not pe(cfg["output_dir"]):
         os.makedirs(cfg["output_dir"])
-    loaders = get_ClinicalData_loaders(cfg)
+    loaders = get_YZSim_loaders(cfg)
     input_size = loaders[0].dataset.get_input_size()
-    model = get_model(input_size, cfg)
+    model = get_model(input_size+1, cfg) # TODO +1 for treatment var
     train(model, loaders, cfg)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument("-i", "--input-file", type=str,
-            default=pj(HOME, "Datasets/EHRs/PCCA/JSON/all_pts.json"))
+            default=pj(HOME, "Datasets/EHRs/CausInfSim/TP_train100.csv"))
     parser.add_argument("--sessions-supdir", type=str,
-            default=pj(HOME, "Training/multi_ehr/sessions"))
+            default=pj(HOME, "Training/caus_inf/sessions"))
     parser.add_argument("--resume-path", type=str, default="",
-            help="Path to model to resume training.  Should be in session_<n>/"\
-                    "models")
+            help="Path to model to resume training.  Should be in " \
+                    "session_<n>/models")
     parser.add_argument("-m", "--model", default="simple_rnn",
             choices=["simple_rnn"])
-    parser.add_argument("-d", "--dataset", default="pcca_clinical",
-            choices=["pcca_clinical"])
+    parser.add_argument("-d", "--dataset", default="YZSim",
+            choices=["YZSim"])
 
     parser.add_argument("--train-valid-split", type=float, default=0.85)
     parser.add_argument("-s", "--sequence-length", type=int, default=20,
             help="Measured in time increments")
     parser.add_argument("-t", "--time-increment", type=int, default=30)
-    parser.add_argument("--nc", "--max-num-codes", dest="max_num_codes",
-            type=int, default=40)
     parser.add_argument("-h", "--rnn-hidden-size", type=int, default=256)
 
     parser.add_argument("--lr", "--learning-rate", dest="lr", type=float,
