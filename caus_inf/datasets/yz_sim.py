@@ -81,11 +81,12 @@ class YZSim(Dataset):
         pid = self._pids[index]
         X = self._data_dict[pid]["X"]
         Y2 = self._data_dict[pid]["Y"]
+        num_ts = len(X)
         treat_time = self._data_dict[pid]["treat"]
-        Y = np.zeros( (len(Y2),) )
+        Y = np.zeros( (num_ts,) )
         Y[:treat_time] = Y2[:treat_time, 0]
         Y[treat_time:] = Y2[treat_time:, 1]
-        tt = torch.zeros( len(X), 1 )
+        tt = torch.zeros( num_ts, 1 )
         tt[treat_time] = 1
         return torch.FloatTensor(X),torch.FloatTensor(Y),tt,pid
 

@@ -79,6 +79,10 @@ def train(model, loaders, cfg):
             xt = torch.cat([x,tt], dim=2)
             y = y[-1, :]
 
+            stop_pt = int(10 + (len(x)-10)*torch.rand(1,))
+            xt = xt[:stop_pt]
+            y = y[:stop_pt]
+
             yhat = model(xt).view(-1)
             
             optimizer.zero_grad()
@@ -102,10 +106,11 @@ def train(model, loaders, cfg):
 
                 yhat = model(xt).view(-1)
                 
-                test_loss = criterion(yhat, y)
+                test_loss += criterion(yhat, y).item()
                 g_iter_ct += 1
+            test_loss /= ct
             writer.add_scalars("Loss", {g_writer_mode : test_loss}, g_iter_ct)
-            print("Valid loss: %f" % test_loss.item())
+            print("Valid loss: %f" % test_loss)
 
 def main(cfg):
     cfg["session_dir"] = make_or_get_session_dir(cfg["sessions_supdir"],
