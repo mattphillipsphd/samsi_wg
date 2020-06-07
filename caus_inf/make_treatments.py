@@ -30,12 +30,29 @@ def main(cfg):
             "activeupondischarge"]
     for pt in pts:
         treats_p = treats_df[ treats_df["patientunitstayid"]==pt ]
-        treats_p = treats_p.sort_values("treatmentoffset")
         treats_p = treats_p[treat_vars] 
-        treats_p.to_csv( pj(output_dir, "%d.h5" % pt) )        
+        treats_p = treats_p.sort_values("treatmentoffset")
+        treats_p.to_csv( pj(output_dir, "%d.csv" % pt) )        
     
-#    meds_df = pd.read_csv( pj(data_supdir, "csv/medication.csv") )
-#        meds_p = meds_df[ meds_df["patientunitstayid"]==pt ]
+    output_dir = pj(data_supdir, "async_meds")
+    med_events = ["drugstartoffset", "drugstopoffset"]
+    med_vars = ["medicationid", "drugname", "drugivadmixture",
+            "drugordercancelled", "drugname", "drughiclseqno", "dosage",
+            "routeadmin", "frequency", "loadingdose", "prn", "gtc"]
+    meds_df = pd.read_csv( pj(data_supdir, "csv/medication.csv") )
+    for pt in pts:
+        meds_p_orig = meds_df[ meds_df["patientunitstayid"]==pt ]
+        meds_p = meds_p_orig[med_vars] 
+        meds_p.insert(0, "event", "")
+        ev_dfs = []
+        for ev in med_events:
+            ev_df = meds_p.copy()
+            ev_df.insert(0, "eventoffset", meds_p_orig[ev])
+            ev_df.loc[:,"event"] = ev[:-6] # Remove trailing 'offset'
+            ev_dfs.append(ev_df)
+        meds_p = pd.concat(ev_dfs, ignore_index=True)
+        meds_p = meds_p.sort_values("eventoffset")
+        meds_p.to_csv( pj(output_dir, "%d.csv" % pt) )        
         
 
 
