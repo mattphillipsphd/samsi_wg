@@ -9,7 +9,6 @@ https://github.com/mattphillipsphd/dpsom.git
 import abc
 import argparse
 import csv
-import cv2
 import h5py
 import logging
 import matplotlib.pyplot as plt
