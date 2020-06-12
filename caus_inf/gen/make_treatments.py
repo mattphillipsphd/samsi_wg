@@ -11,10 +11,6 @@ pe = os.path.exists
 pj = os.path.join
 HOME = os.path.expanduser("~")
 
-pe = os.path.exists
-pj = os.path.join
-HOME = os.path.expanduser("~")
-
 
 def get_patient_list(cfg):
     pt_files = os.listdir( pj(cfg["data_supdir"], "async_data") )
