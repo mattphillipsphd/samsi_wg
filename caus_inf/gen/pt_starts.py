@@ -28,14 +28,14 @@ def main(cfg):
         if len(starts) == 0:
             row.append(None)
         else:
-            row.append( int( starts.iloc[0] ) )
+            row.append( "%d" % starts.iloc[0] )
 
         df_treat = pd.read_csv( pj(data_supdir, "async_treat", pt+".csv") )
         offsets = df_treat["treatmentoffset"]
         if len(offsets) == 0:
             row.append(None)
         else:
-            row.append( int( offsets.iloc[0] ) )
+            row.append( "%d" % offsets.iloc[0] )
 
         rows.append(row)
 
