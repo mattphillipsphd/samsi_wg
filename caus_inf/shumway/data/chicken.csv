@@ -1,0 +1,361 @@
+,chicken
+0,"NaN    65.58
+Name: 0, dtype: float64"
+1,"NaN    66.48
+Name: 1, dtype: float64"
+2,"NaN    65.7
+Name: 2, dtype: float64"
+3,"NaN    64.33
+Name: 3, dtype: float64"
+4,"NaN    63.23
+Name: 4, dtype: float64"
+5,"NaN    62.94
+Name: 5, dtype: float64"
+6,"NaN    62.92
+Name: 6, dtype: float64"
+7,"NaN    62.73
+Name: 7, dtype: float64"
+8,"NaN    62.5
+Name: 8, dtype: float64"
+9,"NaN    63.35
+Name: 9, dtype: float64"
+10,"NaN    63.8
+Name: 10, dtype: float64"
+11,"NaN    64.21
+Name: 11, dtype: float64"
+12,"NaN    64.11
+Name: 12, dtype: float64"
+13,"NaN    64.04
+Name: 13, dtype: float64"
+14,"NaN    63.0
+Name: 14, dtype: float64"
+15,"NaN    61.9
+Name: 15, dtype: float64"
+16,"NaN    61.49
+Name: 16, dtype: float64"
+17,"NaN    62.27
+Name: 17, dtype: float64"
+18,"NaN    63.13
+Name: 18, dtype: float64"
+19,"NaN    63.86
+Name: 19, dtype: float64"
+20,"NaN    63.53
+Name: 20, dtype: float64"
+21,"NaN    64.6
+Name: 21, dtype: float64"
+22,"NaN    65.99
+Name: 22, dtype: float64"
+23,"NaN    67.5
+Name: 23, dtype: float64"
+24,"NaN    68.5
+Name: 24, dtype: float64"
+25,"NaN    69.23
+Name: 25, dtype: float64"
+26,"NaN    68.57
+Name: 26, dtype: float64"
+27,"NaN    68.36
+Name: 27, dtype: float64"
+28,"NaN    68.98
+Name: 28, dtype: float64"
+29,"NaN    69.58
+Name: 29, dtype: float64"
+30,"NaN    71.59
+Name: 30, dtype: float64"
+31,"NaN    73.09
+Name: 31, dtype: float64"
+32,"NaN    74.75
+Name: 32, dtype: float64"
+33,"NaN    76.59
+Name: 33, dtype: float64"
+34,"NaN    79.63
+Name: 34, dtype: float64"
+35,"NaN    80.94
+Name: 35, dtype: float64"
+36,"NaN    80.1
+Name: 36, dtype: float64"
+37,"NaN    78.16
+Name: 37, dtype: float64"
+38,"NaN    76.0
+Name: 38, dtype: float64"
+39,"NaN    74.71
+Name: 39, dtype: float64"
+40,"NaN    73.6
+Name: 40, dtype: float64"
+41,"NaN    73.44
+Name: 41, dtype: float64"
+42,"NaN    73.75
+Name: 42, dtype: float64"
+43,"NaN    73.88
+Name: 43, dtype: float64"
+44,"NaN    74.0
+Name: 44, dtype: float64"
+45,"NaN    74.29
+Name: 45, dtype: float64"
+46,"NaN    74.48
+Name: 46, dtype: float64"
+47,"NaN    74.75
+Name: 47, dtype: float64"
+48,"NaN    74.77
+Name: 48, dtype: float64"
+49,"NaN    75.19
+Name: 49, dtype: float64"
+50,"NaN    74.38
+Name: 50, dtype: float64"
+51,"NaN    72.69
+Name: 51, dtype: float64"
+52,"NaN    71.21
+Name: 52, dtype: float64"
+53,"NaN    69.86
+Name: 53, dtype: float64"
+54,"NaN    69.18
+Name: 54, dtype: float64"
+55,"NaN    68.29
+Name: 55, dtype: float64"
+56,"NaN    67.52
+Name: 56, dtype: float64"
+57,"NaN    67.87
+Name: 57, dtype: float64"
+58,"NaN    68.98
+Name: 58, dtype: float64"
+59,"NaN    69.9
+Name: 59, dtype: float64"
+60,"NaN    70.42
+Name: 60, dtype: float64"
+61,"NaN    70.69
+Name: 61, dtype: float64"
+62,"NaN    69.65
+Name: 62, dtype: float64"
+63,"NaN    69.0
+Name: 63, dtype: float64"
+64,"NaN    69.35
+Name: 64, dtype: float64"
+65,"NaN    71.33
+Name: 65, dtype: float64"
+66,"NaN    73.77
+Name: 66, dtype: float64"
+67,"NaN    76.37
+Name: 67, dtype: float64"
+68,"NaN    78.1
+Name: 68, dtype: float64"
+69,"NaN    79.52
+Name: 69, dtype: float64"
+70,"NaN    80.75
+Name: 70, dtype: float64"
+71,"NaN    81.17
+Name: 71, dtype: float64"
+72,"NaN    81.27
+Name: 72, dtype: float64"
+73,"NaN    81.55
+Name: 73, dtype: float64"
+74,"NaN    79.75
+Name: 74, dtype: float64"
+75,"NaN    77.77
+Name: 75, dtype: float64"
+76,"NaN    76.85
+Name: 76, dtype: float64"
+77,"NaN    77.25
+Name: 77, dtype: float64"
+78,"NaN    79.15
+Name: 78, dtype: float64"
+79,"NaN    81.23
+Name: 79, dtype: float64"
+80,"NaN    82.04
+Name: 80, dtype: float64"
+81,"NaN    83.46
+Name: 81, dtype: float64"
+82,"NaN    85.71
+Name: 82, dtype: float64"
+83,"NaN    88.25
+Name: 83, dtype: float64"
+84,"NaN    88.42
+Name: 84, dtype: float64"
+85,"NaN    88.4
+Name: 85, dtype: float64"
+86,"NaN    87.54
+Name: 86, dtype: float64"
+87,"NaN    86.93
+Name: 87, dtype: float64"
+88,"NaN    87.02
+Name: 88, dtype: float64"
+89,"NaN    87.25
+Name: 89, dtype: float64"
+90,"NaN    86.7
+Name: 90, dtype: float64"
+91,"NaN    85.73
+Name: 91, dtype: float64"
+92,"NaN    85.38
+Name: 92, dtype: float64"
+93,"NaN    86.96
+Name: 93, dtype: float64"
+94,"NaN    88.17
+Name: 94, dtype: float64"
+95,"NaN    88.56
+Name: 95, dtype: float64"
+96,"NaN    86.77
+Name: 96, dtype: float64"
+97,"NaN    84.88
+Name: 97, dtype: float64"
+98,"NaN    82.85
+Name: 98, dtype: float64"
+99,"NaN    82.13
+Name: 99, dtype: float64"
+100,"NaN    82.15
+Name: 100, dtype: float64"
+101,"NaN    83.04
+Name: 101, dtype: float64"
+102,"NaN    83.3
+Name: 102, dtype: float64"
+103,"NaN    84.0
+Name: 103, dtype: float64"
+104,"NaN    85.28
+Name: 104, dtype: float64"
+105,"NaN    86.45
+Name: 105, dtype: float64"
+106,"NaN    87.17
+Name: 106, dtype: float64"
+107,"NaN    87.84
+Name: 107, dtype: float64"
+108,"NaN    87.79
+Name: 108, dtype: float64"
+109,"NaN    87.75
+Name: 109, dtype: float64"
+110,"NaN    86.73
+Name: 110, dtype: float64"
+111,"NaN    85.46
+Name: 111, dtype: float64"
+112,"NaN    85.35
+Name: 112, dtype: float64"
+113,"NaN    85.0
+Name: 113, dtype: float64"
+114,"NaN    85.07
+Name: 114, dtype: float64"
+115,"NaN    86.08
+Name: 115, dtype: float64"
+116,"NaN    86.4
+Name: 116, dtype: float64"
+117,"NaN    86.54
+Name: 117, dtype: float64"
+118,"NaN    86.94
+Name: 118, dtype: float64"
+119,"NaN    87.34
+Name: 119, dtype: float64"
+120,"NaN    88.13
+Name: 120, dtype: float64"
+121,"NaN    88.98
+Name: 121, dtype: float64"
+122,"NaN    89.0
+Name: 122, dtype: float64"
+123,"NaN    89.23
+Name: 123, dtype: float64"
+124,"NaN    89.82
+Name: 124, dtype: float64"
+125,"NaN    90.35
+Name: 125, dtype: float64"
+126,"NaN    91.17
+Name: 126, dtype: float64"
+127,"NaN    92.79
+Name: 127, dtype: float64"
+128,"NaN    93.25
+Name: 128, dtype: float64"
+129,"NaN    94.06
+Name: 129, dtype: float64"
+130,"NaN    94.5
+Name: 130, dtype: float64"
+131,"NaN    94.73
+Name: 131, dtype: float64"
+132,"NaN    95.02
+Name: 132, dtype: float64"
+133,"NaN    95.65
+Name: 133, dtype: float64"
+134,"NaN    95.84
+Name: 134, dtype: float64"
+135,"NaN    96.64
+Name: 135, dtype: float64"
+136,"NaN    97.65
+Name: 136, dtype: float64"
+137,"NaN    99.12
+Name: 137, dtype: float64"
+138,"NaN    100.17
+Name: 138, dtype: float64"
+139,"NaN    101.46
+Name: 139, dtype: float64"
+140,"NaN    102.56
+Name: 140, dtype: float64"
+141,"NaN    104.1
+Name: 141, dtype: float64"
+142,"NaN    105.54
+Name: 142, dtype: float64"
+143,"NaN    106.41
+Name: 143, dtype: float64"
+144,"NaN    106.5
+Name: 144, dtype: float64"
+145,"NaN    106.19
+Name: 145, dtype: float64"
+146,"NaN    105.07
+Name: 146, dtype: float64"
+147,"NaN    104.69
+Name: 147, dtype: float64"
+148,"NaN    104.25
+Name: 148, dtype: float64"
+149,"NaN    104.4
+Name: 149, dtype: float64"
+150,"NaN    104.5
+Name: 150, dtype: float64"
+151,"NaN    105.25
+Name: 151, dtype: float64"
+152,"NaN    107.27
+Name: 152, dtype: float64"
+153,"NaN    108.79
+Name: 153, dtype: float64"
+154,"NaN    110.88
+Name: 154, dtype: float64"
+155,"NaN    112.6
+Name: 155, dtype: float64"
+156,"NaN    112.79
+Name: 156, dtype: float64"
+157,"NaN    113.52
+Name: 157, dtype: float64"
+158,"NaN    113.89
+Name: 158, dtype: float64"
+159,"NaN    113.93
+Name: 159, dtype: float64"
+160,"NaN    113.77
+Name: 160, dtype: float64"
+161,"NaN    114.1
+Name: 161, dtype: float64"
+162,"NaN    113.77
+Name: 162, dtype: float64"
+163,"NaN    114.27
+Name: 163, dtype: float64"
+164,"NaN    114.88
+Name: 164, dtype: float64"
+165,"NaN    115.96
+Name: 165, dtype: float64"
+166,"NaN    116.0
+Name: 166, dtype: float64"
+167,"NaN    115.9
+Name: 167, dtype: float64"
+168,"NaN    115.46
+Name: 168, dtype: float64"
+169,"NaN    115.0
+Name: 169, dtype: float64"
+170,"NaN    114.27
+Name: 170, dtype: float64"
+171,"NaN    113.36
+Name: 171, dtype: float64"
+172,"NaN    113.06
+Name: 172, dtype: float64"
+173,"NaN    112.52
+Name: 173, dtype: float64"
+174,"NaN    112.1
+Name: 174, dtype: float64"
+175,"NaN    111.56
+Name: 175, dtype: float64"
+176,"NaN    111.55
+Name: 176, dtype: float64"
+177,"NaN    111.98
+Name: 177, dtype: float64"
+178,"NaN    111.84
+Name: 178, dtype: float64"
+179,"NaN    111.46
+Name: 179, dtype: float64"
